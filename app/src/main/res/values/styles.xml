@@ -36,6 +36,16 @@
         <item name="android:statusBarColor">@color/theme_black_primary_dark</item>
         <item name="android:windowBackground">@color/theme_black_background</item>
         <item name="android:colorAccent">@color/theme_black_accent</item>
+        <item name="android:dialogTheme">@style/Theme.Dialog</item>
+    </style>
+
+    <style name="Theme.Dialog"
+        parent="android:Theme.Material.Light.Dialog">
+
+        <item name="android:colorAccent">@color/theme_blue_primary</item>
+        <item name="android:colorPrimary">@color/sample_blue</item>
+        <item name="android:colorPrimaryDark">@color/theme_blue_accent</item>
+
     </style>
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
@@ -84,6 +94,41 @@
     <style name="MaterialAnimations.Button.Scaled" parent="MaterialAnimations.Button">
         <item name="android:scaleX">0</item>
         <item name="android:scaleY">0</item>
+    </style>
+
+    <style name="ImageIcon">
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:elevation">@dimen/small_padding</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Medium" parent="Text">
+        <item name="android:textColor">@color/theme_black_text</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Text.Large" parent="Text">
+        <item name="android:textSize">@dimen/large_text_size</item>
+    </style>
+
+    <style name="Text.ExtraLarge" parent="Text">
+        <item name="android:textSize">@dimen/extra_large_text_size</item>
+    </style>
+
+    <style name="Text.Small" parent="Text">
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:textColor">@color/theme_black_text</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
 </resources>

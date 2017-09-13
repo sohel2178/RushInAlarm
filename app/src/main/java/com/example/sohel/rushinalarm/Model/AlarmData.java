@@ -1,6 +1,9 @@
 package com.example.sohel.rushinalarm.Model;
 
+import android.net.Uri;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by sohel on 11-09-17.
@@ -9,17 +12,33 @@ import java.io.Serializable;
 public class AlarmData implements Serializable {
 
     private String time;
-    private String desc;
+    private String note;
     private boolean isSet;
+    private List<String> repeateDays;
+    private int volume;
+    private Uri sound;
+    private boolean vibration;
+    private boolean fadeIn;
+    private int snoozeDurationInMin;
 
 
     public AlarmData() {
     }
 
-    public AlarmData(String time, String desc, boolean isSet) {
+    public AlarmData(String time, String note, boolean isSet, List<String> repeateDays, int volume, Uri sound, boolean vibration, boolean fadeIn, int snoozeDurationInMin) {
         this.time = time;
-        this.desc = desc;
+        this.note = note;
         this.isSet = isSet;
+        this.repeateDays = repeateDays;
+        this.volume = volume;
+        this.sound = sound;
+        this.vibration = vibration;
+        this.fadeIn = fadeIn;
+        this.snoozeDurationInMin = snoozeDurationInMin;
+    }
+
+    public AlarmData(String time, String note, boolean isSet) {
+        this(time,note,isSet,null,50,null,false,false,10);
     }
 
     public String getTime() {
@@ -30,12 +49,12 @@ public class AlarmData implements Serializable {
         this.time = time;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getNote() {
+        return note;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public boolean isSet() {
@@ -44,5 +63,53 @@ public class AlarmData implements Serializable {
 
     public void setSet(boolean set) {
         isSet = set;
+    }
+
+    public List<String> getRepeateDays() {
+        return repeateDays;
+    }
+
+    public void setRepeateDays(List<String> repeateDays) {
+        this.repeateDays = repeateDays;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public Uri getSound() {
+        return sound;
+    }
+
+    public void setSound(Uri sound) {
+        this.sound = sound;
+    }
+
+    public boolean isVibration() {
+        return vibration;
+    }
+
+    public void setVibration(boolean vibration) {
+        this.vibration = vibration;
+    }
+
+    public boolean isFadeIn() {
+        return fadeIn;
+    }
+
+    public void setFadeIn(boolean fadeIn) {
+        this.fadeIn = fadeIn;
+    }
+
+    public int getSnoozeDurationInMin() {
+        return snoozeDurationInMin;
+    }
+
+    public void setSnoozeDurationInMin(int snoozeDurationInMin) {
+        this.snoozeDurationInMin = snoozeDurationInMin;
     }
 }

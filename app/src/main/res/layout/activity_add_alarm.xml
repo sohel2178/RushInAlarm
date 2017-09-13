@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sohel.rushinalarm.Activities.AddAlarmActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/MaterialAnimations.TextAppearance.Title"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/theme_black_primary"
+        android:elevation="@dimen/elevation_header">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/MaterialAnimations.TextAppearance.Title.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:text="@string/alarm_setup" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#80000000"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="@dimen/medium_padding">
+
+            <TextView
+                style="@style/Text.ExtraLarge"
+                android:layout_centerHorizontal="true"
+                android:text="@string/default_time"
+                android:id="@+id/time"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/repeat"
+                android:layout_below="@+id/time">
+
+                <TextView
+                    style="@style/Text.Large"
+                    android:text="@string/repeat"/>
+
+                <TextView
+                    style="@style/Text.Medium"
+                    android:text="@string/default_repeat_mode"
+                    android:id="@+id/repeat_mode"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/vol_container"
+                android:layout_below="@+id/repeat">
+
+                <ImageView
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:src="@drawable/volume"
+                    android:id="@+id/vol_icon"
+                    android:padding="@dimen/small_padding"/>
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_toRightOf="@+id/vol_icon"
+                    android:id="@+id/vol_seek"/>
+
+                <TextView
+                    style="@style/Text.Medium"
+                    android:layout_below="@+id/vol_icon"
+                    android:text="@string/volume"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/sound_container"
+                android:layout_below="@+id/vol_container">
+
+                <TextView
+                    style="@style/Text.Large"
+                    android:text="@string/sound_and_music"/>
+
+                <TextView
+                    style="@style/Text.Medium"
+                    android:text="@string/default_sound"
+                    android:id="@+id/sound"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_below="@+id/sound_container"
+                style="@style/Text.Large"
+                android:text="@string/vibration"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/sound_container"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:id="@+id/vibration_check"/>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fade_in_container"
+                android:layout_below="@+id/vibration_check">
+
+                <TextView
+                    style="@style/Text.Large"
+                    android:text="@string/fade_in"
+                    android:id="@+id/fade_in_text"/>
+
+
+                <TextView
+                    style="@style/Text.Medium"
+                    android:text="@string/fade_in_txt"
+                    android:layout_below="@+id/fade_in_text"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/fade_in_check"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/snooze_container"
+                android:layout_below="@+id/fade_in_container">
+
+                <TextView
+                    style="@style/Text.Large"
+                    android:text="@string/snooze_duration"
+                    android:id="@+id/snooze_text"/>
+
+
+                <TextView
+                    style="@style/Text.Medium"
+                    android:text="@string/snooze_txt"
+                    android:layout_below="@+id/snooze_text"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/note_container"
+                android:layout_below="@+id/snooze_container">
+
+                <TextView
+                    style="@style/Text.Large"
+                    android:text="@string/note"
+                    android:id="@+id/note_txt"/>
+
+
+                <EditText
+                    android:layout_marginStart="@dimen/medium_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/note"
+                    android:layout_toRightOf="@+id/note_txt"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:textColor="@color/text_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/save"
+                android:text="@string/Save"
+                android:layout_below="@+id/note_container"/>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

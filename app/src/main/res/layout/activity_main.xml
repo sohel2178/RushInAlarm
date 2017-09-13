@@ -8,30 +8,21 @@
     tools:context="com.example.sohel.rushinalarm.MainActivity">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/ImageIcon"
         android:layout_alignParentEnd="true"
         android:src="@drawable/info"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
         android:id="@+id/info"/>
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/ImageIcon"
         android:src="@drawable/settings"
         android:id="@+id/settings"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
         android:layout_toStartOf="@+id/info"/>
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/ImageIcon"
         android:src="@drawable/alarm"
         android:layout_alignParentBottom="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
         android:id="@+id/alarm"/>
 
 

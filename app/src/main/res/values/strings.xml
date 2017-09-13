@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">Rush In Alarm</string>
     <string name="alarm">Alarm</string>
+    <string name="alarm_setup">Alarm Setup</string>
+    <string name="default_time">9:00</string>
+    <string name="repeat">Repeat</string>
+    <string name="default_repeat_mode">never</string>
+    <string name="volume">Volume</string>
+    <string name="default_sound">Mountain</string>
+    <string name="sound_and_music">Sound and Music</string>
+    <string name="vibration">Vibration</string>
+    <string name="fade_in">Fade In</string>
+    <string name="fade_in_txt">Gently increases alarm volume</string>
+    <string name="snooze_duration">Snooze Duration</string>
+    <string name="snooze_txt">15 minutes</string>
+    <string name="note">Note</string>
+    <string name="Save">save</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>
