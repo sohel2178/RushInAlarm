@@ -77,6 +77,14 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
+    <style name="MyRadio" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/large_padding</item>
+        <item name="android:button">@drawable/radio_drawable</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+    </style>
+
 
     <style name="MaterialAnimations.Text.Body" parent="Base.TextAppearance.AppCompat.Medium">
         <item name="android:layout_width">wrap_content</item>

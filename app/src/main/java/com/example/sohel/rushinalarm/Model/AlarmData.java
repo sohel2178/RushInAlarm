@@ -16,16 +16,17 @@ public class AlarmData implements Serializable {
     private boolean isSet;
     private List<String> repeateDays;
     private int volume;
-    private Uri sound;
+    private Sound sound;
     private boolean vibration;
     private boolean fadeIn;
     private int snoozeDurationInMin;
 
 
     public AlarmData() {
+        this("9:30","",false);
     }
 
-    public AlarmData(String time, String note, boolean isSet, List<String> repeateDays, int volume, Uri sound, boolean vibration, boolean fadeIn, int snoozeDurationInMin) {
+    public AlarmData(String time, String note, boolean isSet, List<String> repeateDays, int volume, Sound sound, boolean vibration, boolean fadeIn, int snoozeDurationInMin) {
         this.time = time;
         this.note = note;
         this.isSet = isSet;
@@ -38,7 +39,7 @@ public class AlarmData implements Serializable {
     }
 
     public AlarmData(String time, String note, boolean isSet) {
-        this(time,note,isSet,null,50,null,false,false,10);
+        this(time,note,isSet,null,50,null,false,false,15);
     }
 
     public String getTime() {
@@ -81,11 +82,11 @@ public class AlarmData implements Serializable {
         this.volume = volume;
     }
 
-    public Uri getSound() {
+    public Sound getSound() {
         return sound;
     }
 
-    public void setSound(Uri sound) {
+    public void setSound(Sound sound) {
         this.sound = sound;
     }
 

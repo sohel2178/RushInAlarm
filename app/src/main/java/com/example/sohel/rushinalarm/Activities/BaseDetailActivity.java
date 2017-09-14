@@ -40,4 +40,10 @@ public class BaseDetailActivity extends AppCompatActivity {
         startActivity(i, transitionActivityOptions.toBundle());
     }
 
+    @SuppressWarnings("unchecked") void transitionToResult(Intent i,int requestCode) {
+        final Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants(this, true);
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pairs);
+        startActivityForResult(i,requestCode, transitionActivityOptions.toBundle());
+    }
+
 }

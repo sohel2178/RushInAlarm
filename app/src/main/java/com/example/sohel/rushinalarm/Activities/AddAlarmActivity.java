@@ -1,9 +1,12 @@
 package com.example.sohel.rushinalarm.Activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,12 +18,18 @@ import android.widget.TextView;
 
 import com.example.sohel.rushinalarm.DialogFragment.ClockFragment;
 import com.example.sohel.rushinalarm.Listener.TimeListener;
+import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
+
+import java.util.List;
 
 public class AddAlarmActivity extends BaseDetailActivity implements View.OnClickListener,
         TimeListener{
 
-    private TextView tvTime,tvRepeatMode;
+    private static final int SNOOZE_REQ=1000;
+    private static final int REPEAT_REQ=2000;
+
+    private TextView tvTime,tvRepeatMode,tvSnooze;
     private LinearLayout llRepeatContainer,llSoundandMusic;
     private RelativeLayout rlvolContainer,rlSnoozeContainer;
     private SeekBar volSeekbar;
@@ -28,28 +37,89 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
     private EditText etNote;
     private Button btnSave;
 
-    private int volume;
+    private AlarmData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alarm);
 
+        setupWindowAnimations();
+
         setupToolbar();
 
+        if(getIntent().getSerializableExtra("data")!=null){
+            data = (AlarmData) getIntent().getSerializableExtra("data");
+        }else{
+            data = new AlarmData();
+        }
+
+
         initView();
+
+        bindData();
+    }
+
+    private void bindData() {
+        tvTime.setText(data.getTime());
+        tvSnooze.setText(data.getSnoozeDurationInMin()+" Minutes");
+
+        etNote.setText(data.getNote());
+
+        if(data.getRepeateDays()!=null){
+            if(data.getRepeateDays().size()<=0){
+                tvRepeatMode.setText(getString(R.string.never));
+            }else{
+            //set the Repear Mode
+                setRepeatMode();
+            }
+        }
+
+
+    }
+
+    private void setRepeatMode() {
+        List<String> repeatModes = data.getRepeateDays();
+
+        String value ="";
+
+        for(String x:repeatModes){
+            if(repeatModes.indexOf(x)<repeatModes.size()-1){
+                value = value+x+",";
+            }else{
+                value = value+x;
+            }
+
+        }
+
+        tvRepeatMode.setText(value);
+    }
+
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.RIGHT);
+        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+        getWindow().setReenterTransition(slideTransition);
+        getWindow().setExitTransition(slideTransition);
     }
 
     private void initView() {
         tvTime = (TextView) findViewById(R.id.time);
         tvTime.setOnClickListener(this);
         tvRepeatMode = (TextView) findViewById(R.id.repeat_mode);
+        tvSnooze = (TextView) findViewById(R.id.snooze);
 
         llRepeatContainer = (LinearLayout) findViewById(R.id.repeat);
         llSoundandMusic = (LinearLayout) findViewById(R.id.sound_container);
 
+        llRepeatContainer.setOnClickListener(this);
+        llSoundandMusic.setOnClickListener(this);
+
         rlvolContainer = (RelativeLayout) findViewById(R.id.vol_container);
         rlSnoozeContainer = (RelativeLayout) findViewById(R.id.snooze_container);
+
+        rlSnoozeContainer.setOnClickListener(this);
 
         volSeekbar = (SeekBar) findViewById(R.id.vol_seek);
         volSeekbar.setProgress(100);
@@ -57,10 +127,10 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
         volSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                volume=i;
-                volSeekbar.setProgress(volume,true);
-
-                Log.d("IIII",volume+"");
+                if(data!=null){
+                    data.setVolume(i);
+                }
+                volSeekbar.setProgress(data.getVolume(),true);
             }
 
             @Override
@@ -93,6 +163,17 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
 
             case R.id.save:
                 break;
+
+            case R.id.snooze_container:
+                gotoActivity(SnoozeDurationActivity.class,SNOOZE_REQ);
+                break;
+
+            case R.id.repeat:
+                gotoActivity(RepeatActivity.class,REPEAT_REQ);
+                break;
+
+            case R.id.sound_container:
+                break;
         }
 
     }
@@ -109,6 +190,36 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
 
         String time = String.format("%02d",hour)+":"+String.format("%02d",min);
         tvTime.setText(time);
+        data.setTime(time);
 
+    }
+
+    private void gotoActivity(Class target,int requestCode){
+
+        Intent intent = new Intent(getApplicationContext(),target);
+        if (data!=null){
+            intent.putExtra("data",data);
+        }
+        transitionToResult(intent,requestCode);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case SNOOZE_REQ:
+                if(resultCode==RESULT_OK){
+                    Log.d("YYYY",data.getIntExtra("snooze",0)+"");
+
+                    int value = data.getIntExtra("snooze",0);
+
+                    tvSnooze.setText(value+" Minutes");
+                    this.data.setSnoozeDurationInMin(value);
+
+                }
+                break;
+        }
     }
 }

@@ -19,8 +19,12 @@
         <activity
             android:name=".Activities.AlarmActivity"
             android:theme="@style/MaterialAnimations.Black" />
-        <activity android:name=".Activities.AddAlarmActivity"
-            android:theme="@style/MaterialAnimations.Black" ></activity>
+        <activity
+            android:name=".Activities.AddAlarmActivity"
+            android:theme="@style/MaterialAnimations.Black" />
+        <activity android:name=".Activities.SnoozeDurationActivity" />
+        <activity android:name=".Activities.RepeatActivity"
+            android:theme="@style/MaterialAnimations.Black"></activity>
     </application>
 
 </manifest>
