@@ -16,33 +16,38 @@ public class AlarmData implements Serializable {
     private int id;
     private String time;
     private String note;
-    private boolean isSet;
-    private List<String> repeateDays;
+    private int isSet;
+    private String repeateDays;
     private int volume;
-    private Sound sound;
-    private boolean vibration;
-    private boolean fadeIn;
+    private int soundId;
+    private int vibration;
+    private int fadeIn;
     private int snoozeDurationInMin;
 
 
     public AlarmData() {
-        this("9:30","",false);
+        this("9:30","",0);
     }
 
-    public AlarmData(String time, String note, boolean isSet, List<String> repeateDays, int volume, Sound sound, boolean vibration, boolean fadeIn, int snoozeDurationInMin) {
+    public AlarmData(String time, String note, int isSet, String repeateDays, int volume, int soundId, int vibration, int fadeIn, int snoozeDurationInMin) {
+        this(-1,time,note,isSet,repeateDays,volume,soundId,vibration,fadeIn,snoozeDurationInMin);
+    }
+
+    public AlarmData(int id, String time, String note, int isSet, String repeateDays, int volume, int soundId, int vibration, int fadeIn, int snoozeDurationInMin) {
+        this.id = id;
         this.time = time;
         this.note = note;
         this.isSet = isSet;
         this.repeateDays = repeateDays;
         this.volume = volume;
-        this.sound = sound;
+        this.soundId = soundId;
         this.vibration = vibration;
         this.fadeIn = fadeIn;
         this.snoozeDurationInMin = snoozeDurationInMin;
     }
 
-    public AlarmData(String time, String note, boolean isSet) {
-        this(time,note,isSet,null,50,new Sound("Awesome Alarm",R.raw.awesome_alarm),false,false,15);
+    public AlarmData(String time, String note, int isSet) {
+        this(time,note,isSet,"Never",50,1,0,0,15);
     }
 
     public int getId() {
@@ -69,21 +74,7 @@ public class AlarmData implements Serializable {
         this.note = note;
     }
 
-    public boolean isSet() {
-        return isSet;
-    }
 
-    public void setSet(boolean set) {
-        isSet = set;
-    }
-
-    public List<String> getRepeateDays() {
-        return repeateDays;
-    }
-
-    public void setRepeateDays(List<String> repeateDays) {
-        this.repeateDays = repeateDays;
-    }
 
     public int getVolume() {
         return volume;
@@ -93,27 +84,27 @@ public class AlarmData implements Serializable {
         this.volume = volume;
     }
 
-    public Sound getSound() {
-        return sound;
+    public int getIsSet() {
+        return isSet;
     }
 
-    public void setSound(Sound sound) {
-        this.sound = sound;
+    public void setIsSet(int isSet) {
+        this.isSet = isSet;
     }
 
-    public boolean isVibration() {
+    public int getVibration() {
         return vibration;
     }
 
-    public void setVibration(boolean vibration) {
+    public void setVibration(int vibration) {
         this.vibration = vibration;
     }
 
-    public boolean isFadeIn() {
+    public int getFadeIn() {
         return fadeIn;
     }
 
-    public void setFadeIn(boolean fadeIn) {
+    public void setFadeIn(int fadeIn) {
         this.fadeIn = fadeIn;
     }
 
@@ -123,5 +114,21 @@ public class AlarmData implements Serializable {
 
     public void setSnoozeDurationInMin(int snoozeDurationInMin) {
         this.snoozeDurationInMin = snoozeDurationInMin;
+    }
+
+    public String getRepeateDays() {
+        return repeateDays;
+    }
+
+    public void setRepeateDays(String repeateDays) {
+        this.repeateDays = repeateDays;
+    }
+
+    public int getSoundId() {
+        return soundId;
+    }
+
+    public void setSoundId(int soundId) {
+        this.soundId = soundId;
     }
 }

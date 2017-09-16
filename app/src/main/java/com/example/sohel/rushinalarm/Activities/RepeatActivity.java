@@ -22,7 +22,7 @@ public class RepeatActivity extends BaseDetailActivity implements View.OnClickLi
     private CheckBox ckMon,ckTue,ckWed,ckThu,ckFri,ckSat,ckSun;
     private Button btnOk;
 
-    private List<String> repeatDays;
+    private String repeatDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,8 @@ public class RepeatActivity extends BaseDetailActivity implements View.OnClickLi
             repeatDays = data.getRepeateDays();
 
             if(repeatDays!=null){
-                if(repeatDays.size()>0){
-                    checkAllDays();
-                }
+                checkAllDays();
+
             }
 
 
@@ -55,7 +54,7 @@ public class RepeatActivity extends BaseDetailActivity implements View.OnClickLi
 
     private void checkAllDays() {
 
-        for(String x: repeatDays){
+        for(String x: repeatDays.split(",")){
             check(x);
         }
     }
@@ -117,49 +116,55 @@ public class RepeatActivity extends BaseDetailActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
-        List<String> checkedDays = getCheckedDay();
+        String checkedDays = getCheckedDay();
 
         Intent intent = new Intent();
-        intent.putExtra("repeat_days", (Serializable) checkedDays);
+        intent.putExtra("repeat_days", checkedDays);
         setResult(RESULT_OK,intent);
 
         finish();
 
     }
 
-    public List<String> getCheckedDay(){
-        List<String> retList = new ArrayList<>();
+    public String getCheckedDay(){
+        String reStr = "";
 
 
         if(ckMon.isChecked()){
-            retList.add("Mon");
+            reStr=reStr+"Mon,";
         }
 
         if(ckTue.isChecked()){
-            retList.add("Tue");
+            reStr=reStr+"Tue,";
         }
 
         if(ckWed.isChecked()){
-            retList.add("Wed");
+            reStr=reStr+"Wed,";
         }
 
         if(ckThu.isChecked()){
-            retList.add("Thu");
+            reStr=reStr+"Thu,";
         }
 
         if(ckFri.isChecked()){
-            retList.add("Fri");
+            reStr=reStr+"Fri,";
         }
 
         if(ckSat.isChecked()){
-            retList.add("Sat");
+            reStr=reStr+"Sat,";
         }
 
         if(ckSun.isChecked()){
-            retList.add("Sun");
+            reStr=reStr+"Sun,";
         }
 
-        return retList;
+        if(reStr.length()>=4){
+            reStr = reStr.substring(0,reStr.length()-1);
+        }else{
+            reStr="Never";
+        }
+
+        return reStr;
 
     }
 }

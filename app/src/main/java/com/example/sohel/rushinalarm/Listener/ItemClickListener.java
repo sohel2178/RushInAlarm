@@ -8,5 +8,5 @@ import com.example.sohel.rushinalarm.Model.Sound;
  */
 
 public interface ItemClickListener {
-    public void onItemClick(Sound selectedSound);
+    public void onItemClick(int selectedSoundId);
 }

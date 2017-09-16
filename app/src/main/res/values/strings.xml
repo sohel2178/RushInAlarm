@@ -30,4 +30,13 @@
     <string name="set_sound">Set Sound</string>
     <string name="every_monday">Every Monday</string>
     <string name="every_tuesday">Every Tuesday</string>
+
+
+    <array name="alarm_names">
+        <item>Alarm</item>
+        <item>Awesome Alarm</item>
+        <item>Nice Alarm</item>
+        <item>Rhythmic Alarm</item>
+        <item>Sweet Alarm</item>
+    </array>
 </resources>

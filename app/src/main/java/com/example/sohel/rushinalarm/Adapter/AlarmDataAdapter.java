@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.sohel.rushinalarm.Listener.AlarmClickListener;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
 
@@ -24,11 +25,16 @@ public class AlarmDataAdapter extends RecyclerView.Adapter<AlarmDataAdapter.Alar
     private Context context;
     private List<AlarmData> alarmDataList;
     private LayoutInflater inflater;
+    private AlarmClickListener listener;
 
     public AlarmDataAdapter(Context context, List<AlarmData> alarmDataList) {
         this.context = context;
         this.alarmDataList = alarmDataList;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public void setListener(AlarmClickListener listener){
+        this.listener =listener;
     }
 
     @Override
@@ -44,7 +50,14 @@ public class AlarmDataAdapter extends RecyclerView.Adapter<AlarmDataAdapter.Alar
 
         AlarmData alarmData = alarmDataList.get(position);
 
-        //holder.
+        holder.tvTime.setText(alarmData.getTime());
+        holder.tvDesc.setText(alarmData.getNote());
+
+        if(alarmData.getIsSet()==0){
+            holder.swOffOn.setChecked(false);
+        }else{
+            holder.swOffOn.setChecked(true);
+        }
 
     }
 
@@ -66,22 +79,23 @@ public class AlarmDataAdapter extends RecyclerView.Adapter<AlarmDataAdapter.Alar
             tvDesc = itemView.findViewById(R.id.desc);
             swOffOn = itemView.findViewById(R.id.off_on);
 
-            tvTime.setOnClickListener(this);
-            tvDesc.setOnClickListener(this);
             swOffOn.setOnCheckedChangeListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
 
+            if(listener!=null){
+                listener.onAlarmClick(getAdapterPosition());
+            }
+
         }
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if(b){
-                Log.d("YYY","ON");
-            }else{
-                Log.d("YYY","OFF");
+            if(listener!=null){
+                listener.obSwitchChange(getAdapterPosition(),b);
             }
         }
     }

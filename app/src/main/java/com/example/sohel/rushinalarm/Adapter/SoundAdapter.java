@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.sohel.rushinalarm.Listener.ItemClickListener;
 import com.example.sohel.rushinalarm.Model.Sound;
 import com.example.sohel.rushinalarm.R;
+import com.example.sohel.rushinalarm.Utility.SoundHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +26,16 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
     private List<Sound> soundList;
     private LayoutInflater inflater;
     private ItemClickListener listener;
-    private Sound selectedSound;
+    private int selectedSound;
 
-    public SoundAdapter(Context context,Sound selectedSound) {
+    public SoundAdapter(Context context,int selectedSound) {
         this.context = context;
-        this.soundList = initSound();
+        SoundHelper soundHelper = new SoundHelper(context);
+        this.soundList = soundHelper.getSoundList();
         this.selectedSound = selectedSound;
         this.inflater = LayoutInflater.from(context);
     }
 
-    private List<Sound> initSound() {
-        List<Sound> sounds = new ArrayList<>();
-        sounds.add(new Sound("Alarm",R.raw.alarm));
-        sounds.add(new Sound("Sweet Alarm",R.raw.sweet_alarm));
-        sounds.add(new Sound("Nice Alarm",R.raw.nice_alarm));
-        sounds.add(new Sound("Awesome Alarm",R.raw.awesome_alarm));
-        sounds.add(new Sound("Rythmic Alarm",R.raw.rythmic_alarm));
-
-        return sounds;
-    }
 
     public void setItemClickListener(ItemClickListener listener){
         this.listener =listener;
@@ -63,7 +55,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
         holder.tvName.setText(sound.getName());
 
-        if(selectedSound.getSound_id()==sound.getSound_id()){
+        if(selectedSound==sound.getId()){
             holder.radioButton.setChecked(true);
         }else{
             holder.radioButton.setChecked(false);
@@ -97,7 +89,7 @@ public class SoundAdapter extends RecyclerView.Adapter<SoundAdapter.SoundHolder>
 
             //this.radioButton.setChecked(false);
 
-            selectedSound = soundList.get(getAdapterPosition());
+            selectedSound = getAdapterPosition();
             notifyDataSetChanged();
 
             if(listener!=null){

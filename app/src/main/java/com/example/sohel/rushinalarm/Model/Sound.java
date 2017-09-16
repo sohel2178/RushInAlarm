@@ -8,15 +8,17 @@ import java.io.Serializable;
 
 public class Sound implements Serializable {
 
+    private int id;
     private String name;
-    private int sound_id;
+    private int res_id;
 
     public Sound() {
     }
 
-    public Sound(String name, int sound_id) {
+    public Sound(int id, String name, int res_id) {
+        this.id = id;
         this.name = name;
-        this.sound_id = sound_id;
+        this.res_id = res_id;
     }
 
     public String getName() {
@@ -27,11 +29,19 @@ public class Sound implements Serializable {
         this.name = name;
     }
 
-    public int getSound_id() {
-        return sound_id;
+    public int getId() {
+        return id;
     }
 
-    public void setSound_id(int sound_id) {
-        this.sound_id = sound_id;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getRes_id() {
+        return res_id;
+    }
+
+    public void setRes_id(int res_id) {
+        this.res_id = res_id;
     }
 }

@@ -20,7 +20,7 @@ public class SoundActivity extends BaseDetailActivity implements ItemClickListen
 
     private SoundAdapter adapter;
 
-    private Sound selectedSound;
+    private int selectedSoundId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +30,14 @@ public class SoundActivity extends BaseDetailActivity implements ItemClickListen
         AlarmData data = (AlarmData) getIntent().getSerializableExtra("data");
 
         if(data!=null){
-            selectedSound = data.getSound();
+            selectedSoundId = data.getSoundId();
         }
 
         setupWindowAnimations();
 
         setupToolbar();
 
-        adapter = new SoundAdapter(getApplicationContext(),selectedSound);
+        adapter = new SoundAdapter(getApplicationContext(),selectedSoundId);
         adapter.setItemClickListener(this);
 
         initView();
@@ -62,9 +62,9 @@ public class SoundActivity extends BaseDetailActivity implements ItemClickListen
     }
 
     @Override
-    public void onItemClick(Sound selectedSound) {
+    public void onItemClick(int selectedSoundId) {
         Intent intent = new Intent();
-        intent.putExtra("sound",selectedSound);
+        intent.putExtra("sound",selectedSoundId);
         setResult(RESULT_OK,intent);
 
         finish();
