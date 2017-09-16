@@ -2,6 +2,8 @@ package com.example.sohel.rushinalarm.Model;
 
 import android.net.Uri;
 
+import com.example.sohel.rushinalarm.R;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
 
 public class AlarmData implements Serializable {
 
+    private int id;
     private String time;
     private String note;
     private boolean isSet;
@@ -39,7 +42,15 @@ public class AlarmData implements Serializable {
     }
 
     public AlarmData(String time, String note, boolean isSet) {
-        this(time,note,isSet,null,50,null,false,false,15);
+        this(time,note,isSet,null,50,new Sound("Awesome Alarm",R.raw.awesome_alarm),false,false,15);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTime() {

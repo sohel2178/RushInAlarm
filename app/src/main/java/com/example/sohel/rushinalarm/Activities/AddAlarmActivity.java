@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.example.sohel.rushinalarm.DialogFragment.ClockFragment;
 import com.example.sohel.rushinalarm.Listener.TimeListener;
 import com.example.sohel.rushinalarm.Model.AlarmData;
+import com.example.sohel.rushinalarm.Model.Sound;
 import com.example.sohel.rushinalarm.R;
 
 import java.util.List;
@@ -28,8 +30,9 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
 
     private static final int SNOOZE_REQ=1000;
     private static final int REPEAT_REQ=2000;
+    private static final int MUSIC_REQ=3000;
 
-    private TextView tvTime,tvRepeatMode,tvSnooze;
+    private TextView tvTime,tvRepeatMode,tvSnooze,tvSound;
     private LinearLayout llRepeatContainer,llSoundandMusic;
     private RelativeLayout rlvolContainer,rlSnoozeContainer;
     private SeekBar volSeekbar;
@@ -63,6 +66,7 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
     private void bindData() {
         tvTime.setText(data.getTime());
         tvSnooze.setText(data.getSnoozeDurationInMin()+" Minutes");
+        tvSound.setText(data.getSound().getName());
 
         etNote.setText(data.getNote());
 
@@ -73,6 +77,14 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
             //set the Repear Mode
                 setRepeatMode();
             }
+        }
+
+        if(data.isVibration()){
+            ckbVibration.setChecked(true);
+        }
+
+        if(data.isFadeIn()){
+            ckbFadeIn.setChecked(true);
         }
 
 
@@ -109,6 +121,7 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
         tvTime.setOnClickListener(this);
         tvRepeatMode = (TextView) findViewById(R.id.repeat_mode);
         tvSnooze = (TextView) findViewById(R.id.snooze);
+        tvSound = (TextView) findViewById(R.id.sound);
 
         llRepeatContainer = (LinearLayout) findViewById(R.id.repeat);
         llSoundandMusic = (LinearLayout) findViewById(R.id.sound_container);
@@ -147,6 +160,28 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
         ckbVibration = (CheckBox) findViewById(R.id.vibration_check);
         ckbFadeIn = (CheckBox) findViewById(R.id.fade_in_check);
 
+        ckbVibration.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    data.setVibration(true);
+                }else{
+                    data.setVibration(false);
+                }
+            }
+        });
+
+        ckbFadeIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    data.setFadeIn(true);
+                }else{
+                    data.setFadeIn(false);
+                }
+            }
+        });
+
         etNote = (EditText) findViewById(R.id.note);
 
         btnSave = (Button) findViewById(R.id.save);
@@ -173,6 +208,7 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
                 break;
 
             case R.id.sound_container:
+                gotoActivity(SoundActivity.class,MUSIC_REQ);
                 break;
         }
 
@@ -218,6 +254,26 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
                     tvSnooze.setText(value+" Minutes");
                     this.data.setSnoozeDurationInMin(value);
 
+                }
+                break;
+
+            case MUSIC_REQ:
+                if(resultCode==RESULT_OK){
+                    Log.d("YYYY",data.getIntExtra("snooze",0)+"");
+
+                    Sound selectedSound = (Sound) data.getSerializableExtra("sound");
+
+                    this.data.setSound(selectedSound);
+                    tvSound.setText(selectedSound.getName());
+                }
+                break;
+
+            case REPEAT_REQ:
+                if(resultCode==RESULT_OK){
+
+                    List<String> repeatDays = (List<String>) data.getSerializableExtra("repeat_days");
+                    this.data.setRepeateDays(repeatDays);
+                    setRepeatMode();
                 }
                 break;
         }

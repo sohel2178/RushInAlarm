@@ -24,4 +24,89 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:padding="@dimen/default_padding">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/every_monday"
+            style="@style/Text.Large"
+            android:id="@+id/ckb_monday"
+            android:textColor="@color/theme_black_text"/>
+
+        <CheckBox
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/every_tuesday"
+            android:layout_below="@+id/ckb_monday"
+            android:id="@+id/ckb_tuesday"
+            style="@style/Text.Large"
+            android:textColor="@color/theme_black_text"/>
+
+        <CheckBox
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every Wednesday"
+            android:layout_below="@+id/ckb_tuesday"
+            android:id="@+id/ckb_wednesday"
+            style="@style/Text.Large"
+            android:textColor="@color/theme_black_text"/>
+
+        <CheckBox
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every Thursday"
+            android:layout_below="@+id/ckb_wednesday"
+            android:id="@+id/ckb_thursday"
+            style="@style/Text.Large"
+            android:textColor="@color/theme_black_text"/>
+
+        <CheckBox
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every Friday"
+            android:layout_below="@+id/ckb_thursday"
+            android:id="@+id/ckb_friday"
+            style="@style/Text.Large"
+            android:textColor="@color/theme_black_text"/>
+
+        <CheckBox
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every Saturday"
+            android:layout_below="@+id/ckb_friday"
+            android:id="@+id/ckb_satday"
+            style="@style/Text.Large"
+            android:textColor="@color/theme_black_text"/>
+
+        <CheckBox
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Every Sunday"
+            android:layout_below="@+id/ckb_satday"
+            android:id="@+id/ckb_sunday"
+            style="@style/Text.Large"
+            android:textColor="@color/theme_black_text"/>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_padding"
+            android:layout_below="@+id/ckb_sunday"
+            android:text="@string/ok"
+            android:id="@+id/ok"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>
