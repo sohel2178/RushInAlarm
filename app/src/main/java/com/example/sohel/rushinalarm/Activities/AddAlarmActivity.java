@@ -114,6 +114,8 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
             ckbFadeIn.setChecked(true);
         }
 
+        volSeekbar.setProgress(data.getVolume());
+
 
     }
 
@@ -157,8 +159,10 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if(data!=null){
                     data.setVolume(i);
+                    Log.d("TTTT",i+"");
+
                 }
-                volSeekbar.setProgress(data.getVolume(),true);
+                //volSeekbar.setProgress(data.getVolume(),true);
             }
 
             @Override
