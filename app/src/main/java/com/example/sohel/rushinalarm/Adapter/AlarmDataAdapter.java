@@ -81,13 +81,20 @@ public class AlarmDataAdapter extends RecyclerView.Adapter<AlarmDataAdapter.Alar
 
             swOffOn.setOnCheckedChangeListener(this);
             itemView.setOnClickListener(this);
+            swOffOn.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
 
             if(listener!=null){
-                listener.onAlarmClick(getAdapterPosition());
+                if(view==itemView){
+                    listener.onAlarmClick(getAdapterPosition(),1,false);
+
+                }else if(view==swOffOn){
+                    listener.onAlarmClick(getAdapterPosition(),2,swOffOn.isChecked());
+                }
+
             }
 
         }

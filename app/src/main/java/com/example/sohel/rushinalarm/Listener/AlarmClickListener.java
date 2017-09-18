@@ -5,6 +5,6 @@ package com.example.sohel.rushinalarm.Listener;
  */
 
 public interface AlarmClickListener {
-    public void onAlarmClick(int position);
+    public void onAlarmClick(int position,int viewId,boolean isCheck);
     public void obSwitchChange(int position,boolean value);
 }

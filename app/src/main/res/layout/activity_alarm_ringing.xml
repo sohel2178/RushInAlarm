@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.sohel.rushinalarm.Activities.AlarmRingingActivity">
 
-</android.support.constraint.ConstraintLayout>
+   <!-- <br.tiagohm.clockview.ClockView
+        android:id="@+id/relogio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        app:circleColor="#aa000000"
+        app:digitalClockTextColor="@color/text_light"
+        app:dotColor="@color/theme_red_primary_dark"
+        app:hour="9"
+        app:hourHandColor="@color/sample_blue"
+        app:minute="45"
+        app:minuteHandColor="@color/sample_blue"
+        app:numeralColor="@color/text_light"
+        app:second="0"
+        app:secondHandColor="@color/sample_red"
+        app:showDigitalClock="true"
+        app:showDots="true"
+        app:showNumerals="true"
+        app:showSecondHand="true"/>-->
+
+    <com.example.sohel.rushinalarm.ViewModel.SohelClockView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/large_padding"
+        android:id="@+id/clock"/>
+
+</RelativeLayout>

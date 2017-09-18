@@ -35,6 +35,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".Activities.AlarmRingingActivity"></activity>
+
+        <receiver android:name=".Receiver.AlarmReceiver"/>
     </application>
 
 </manifest>

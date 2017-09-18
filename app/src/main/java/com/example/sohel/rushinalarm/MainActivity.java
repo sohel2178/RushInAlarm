@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.sohel.rushinalarm.Activities.AlarmActivity;
+import com.example.sohel.rushinalarm.Activities.AlarmRingingActivity;
 import com.example.sohel.rushinalarm.Utility.TransitionHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.settings:
+                transitionToActivity(AlarmRingingActivity.class);
+
 
                 break;
         }

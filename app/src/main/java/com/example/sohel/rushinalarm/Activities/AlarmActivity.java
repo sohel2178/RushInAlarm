@@ -1,5 +1,7 @@
 package com.example.sohel.rushinalarm.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +18,10 @@ import com.example.sohel.rushinalarm.Database.AlarmDatabase;
 import com.example.sohel.rushinalarm.Listener.AlarmClickListener;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
+import com.example.sohel.rushinalarm.Receiver.AlarmReceiver;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AlarmActivity extends BaseDetailActivity implements View.OnClickListener,
@@ -30,10 +35,20 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
     private List<AlarmData> alarmDataList;
     private AlarmDataAdapter adapter;
 
+
+    private AlarmManager alarmManager;
+    private List<PendingIntent> pendinIntenList;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+        pendinIntenList = new ArrayList<>();
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
 
         //Open Alarm Database
         openAlarmDatabase();
@@ -48,6 +63,8 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         setupToolbar();
 
         initView();
+
+
     }
 
     private void openAlarmDatabase() {
@@ -97,6 +114,7 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
                     AlarmData alarmData = (AlarmData) data.getSerializableExtra("data");
 
                     if(isupdate){
+                        Log.d("UPDATE","UPDATE");
                         int position = getPosition(alarmData);
 
                         if(position!=-1){
@@ -127,12 +145,24 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
     }
 
     @Override
-    public void onAlarmClick(int position) {
+    public void onAlarmClick(int position,int viewId,boolean isChecked) {
         AlarmData data = alarmDataList.get(position);
 
-        Intent intent = new Intent(getApplicationContext(),AddAlarmActivity.class);
-        intent.putExtra("data",data);
-        transitionToResult(intent,ALARM_DATA_REQ);
+        if(viewId==1){
+            Intent intent = new Intent(getApplicationContext(),AddAlarmActivity.class);
+            intent.putExtra("data",data);
+            transitionToResult(intent,ALARM_DATA_REQ);
+        }else if(viewId==2){
+
+            if(isChecked){
+                setAlarm(data,position);
+            }else{
+                cancelAlarm(data,position);
+            }
+
+        }
+
+
     }
 
     @Override
@@ -143,6 +173,7 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
 
         if(value){
             data.setIsSet(1);
+
         }else {
             data.setIsSet(0);
         }
@@ -151,4 +182,41 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
 
         Log.d("DDD",fal+"");
     }
+
+    private void setAlarm(AlarmData data,int position) {
+
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra("data",data);
+        int hour = data.getHour();
+        int minutes = data.getMinutes();
+
+
+        // Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minutes);
+
+
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),position,intent,0);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60, alarmIntent);
+
+        pendinIntenList.add(alarmIntent);
+
+
+        //alarmManager.re(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+10000,alarmIntent);
+    }
+
+    private void cancelAlarm(AlarmData data,int position){
+
+        if(alarmManager!=null){
+            alarmManager.cancel(pendinIntenList.get(position));
+            pendinIntenList.remove(position);
+        }
+
+    }
+
+
 }

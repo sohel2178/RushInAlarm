@@ -131,4 +131,16 @@ public class AlarmData implements Serializable {
     public void setSoundId(int soundId) {
         this.soundId = soundId;
     }
+
+    public int getHour(){
+        String[] hhh = getTime().split(":");
+
+        return Integer.parseInt(hhh[0]);
+    }
+
+    public int getMinutes(){
+        String[] hhh = getTime().split(":");
+
+        return Integer.parseInt(hhh[1]);
+    }
 }
