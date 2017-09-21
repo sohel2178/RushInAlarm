@@ -19,7 +19,9 @@ import com.example.sohel.rushinalarm.Listener.AlarmClickListener;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
 import com.example.sohel.rushinalarm.Receiver.AlarmReceiver;
+import com.example.sohel.rushinalarm.Utility.Constant;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -117,6 +119,8 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
                         Log.d("UPDATE","UPDATE");
                         int position = getPosition(alarmData);
 
+                        Log.d("UPDATE","Position "+position);
+
                         if(position!=-1){
                             alarmDataList.set(position,alarmData);
                         }
@@ -150,14 +154,14 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
 
         if(viewId==1){
             Intent intent = new Intent(getApplicationContext(),AddAlarmActivity.class);
-            intent.putExtra("data",data);
+            intent.putExtra(Constant.DATA,data);
             transitionToResult(intent,ALARM_DATA_REQ);
         }else if(viewId==2){
 
             if(isChecked){
-                setAlarm(data,position);
+                setAlarm(data);
             }else{
-                cancelAlarm(data,position);
+                cancelAlarm(data);
             }
 
         }
@@ -183,13 +187,14 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         Log.d("DDD",fal+"");
     }
 
-    private void setAlarm(AlarmData data,int position) {
+    private void setAlarm(AlarmData alarmData) {
 
-        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        intent.putExtra("data",data);
-        int hour = data.getHour();
-        int minutes = data.getMinutes();
+        Log.d("HHH","Alarm Set");
 
+
+
+        int hour = alarmData.getHour();
+        int minutes = alarmData.getMinutes();
 
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
@@ -198,23 +203,37 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         calendar.set(Calendar.MINUTE, minutes);
 
 
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(),position,intent,0);
+        PendingIntent alarmIntent = createPendingIntent(alarmData);
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60, alarmIntent);
+                AlarmManager.INTERVAL_DAY, alarmIntent);
 
-        pendinIntenList.add(alarmIntent);
+        Log.d("HHH","Alarm Remaining "+(calendar.getTimeInMillis()-System.currentTimeMillis()) );
+
 
 
         //alarmManager.re(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+10000,alarmIntent);
     }
 
-    private void cancelAlarm(AlarmData data,int position){
+    private void cancelAlarm(AlarmData data){
+
+        PendingIntent pendingIntent = createPendingIntent(data);
 
         if(alarmManager!=null){
-            alarmManager.cancel(pendinIntenList.get(position));
-            pendinIntenList.remove(position);
+            Log.d("HHH","Alarm Cancel");
+            alarmManager.cancel(pendingIntent);
         }
+
+    }
+
+    private PendingIntent createPendingIntent(AlarmData data){
+
+        Intent intent = new Intent(getApplicationContext(),AlarmReceiver.class);
+        intent.putExtra(Constant.ID,data.getId());
+
+        PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(),data.getId(),intent,0);
+
+        return pi;
 
     }
 

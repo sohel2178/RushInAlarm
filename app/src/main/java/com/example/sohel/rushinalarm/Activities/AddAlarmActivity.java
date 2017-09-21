@@ -241,13 +241,26 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
 
         if(getIntent().getSerializableExtra("data")==null){
             long id = alarmDatabase.insertRow(data);
+            data.setId((int)id);
 
             if(id==-1){
                 isUpdate=false;
             }
             Log.d("DDDD",id+"");
         }else{
+            Log.d("DDDD","Update");
+
+            Log.d("DDDD","ID of Data before Update "+data.getId());
+
+            // If Id of data not Yet Save it is impossible to update operation in data base.
+            // So set Id before Update
+
+            if(data.getId()==-1){
+
+            }
+
             if(alarmDatabase.updateAlarmData(data)){
+                Log.d("DDDD","Update in DB");
                 isUpdate =true;
             }
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.sohel.rushinalarm.Model.AlarmData;
 
@@ -205,7 +206,11 @@ public class AlarmDatabase {
         contentValues.put(KEY_ROW_FADE_IN,fadeIn);
         contentValues.put(KEY_ROW_SNOOZE_DURATION,snoozeDurationInMin);
 
-        return db.update(TABLE_NAME,contentValues,where,null) !=0;
+        long bal = db.update(TABLE_NAME,contentValues,where,null);
+
+        Log.d("DDDD","Update row ID "+bal);
+
+        return bal !=0;
     }
 
     public boolean updateAlarmData(AlarmData data){
