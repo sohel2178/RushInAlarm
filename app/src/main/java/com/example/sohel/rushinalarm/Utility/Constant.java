@@ -7,4 +7,5 @@ package com.example.sohel.rushinalarm.Utility;
 public class Constant {
     public static final String DATA="data";
     public static final String ID="id";
+    public static final String JOB_ID="jobId";
 }

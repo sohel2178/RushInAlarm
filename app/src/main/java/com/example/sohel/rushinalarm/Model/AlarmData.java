@@ -140,7 +140,6 @@ public class AlarmData implements Serializable {
 
     public int getMinutes(){
         String[] hhh = getTime().split(":");
-
         return Integer.parseInt(hhh[1]);
     }
 }

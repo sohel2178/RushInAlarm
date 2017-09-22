@@ -3,6 +3,7 @@
     package="com.example.sohel.rushinalarm">
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -32,13 +33,13 @@
             android:name=".Activities.SoundActivity"
             android:theme="@style/MaterialAnimations.Black" />
 
+        <activity android:name=".Activities.AlarmRingingActivity"></activity>
+
         <service
             android:name=".JobSchduler.MyJobSchedulerService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".Activities.AlarmRingingActivity"></activity>
-
-        <receiver android:name=".Receiver.AlarmReceiver"/>
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>

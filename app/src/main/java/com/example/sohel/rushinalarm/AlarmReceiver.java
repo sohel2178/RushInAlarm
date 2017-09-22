@@ -1,4 +1,4 @@
-package com.example.sohel.rushinalarm.Receiver;
+package com.example.sohel.rushinalarm;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.sohel.rushinalarm.Activities.AlarmRingingActivity;
 import com.example.sohel.rushinalarm.Database.AlarmDatabase;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.Utility.Constant;
@@ -17,6 +18,7 @@ import com.example.sohel.rushinalarm.Utility.Constant;
 public class AlarmReceiver extends BroadcastReceiver {
 
     private AlarmDatabase alarmDatabase;
+    private AlarmData alarmData;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -29,21 +31,21 @@ public class AlarmReceiver extends BroadcastReceiver {
             Log.d("HHH",id+"");
         }
 
-        /*if(data!=null){
-            Log.d("HHH",data.getTime());
-            Log.d("HHH",data.getRepeateDays());
-            Log.d("HHH",data.getSnoozeDurationInMin()+"");
-        }else{
-            Log.d("HHH","Data Null");
-        }*/
+        fetchAlarnData(id,context);
 
+        Intent startActivityIntent = new Intent(context, AlarmRingingActivity.class);
+        startActivityIntent.putExtra(Constant.DATA,alarmData);
+        context.startActivity(startActivityIntent);
+    }
 
+    private void fetchAlarnData(int id, Context context) {
+        alarmDatabase = new AlarmDatabase(context);
+        alarmDatabase.open();
+        alarmData = alarmDatabase.getAlarmDataById(id);
+        alarmDatabase.close();
 
     }
 
-    private void cancelAlarm(){
-
-    }
 
 
 }

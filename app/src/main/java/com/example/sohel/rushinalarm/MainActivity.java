@@ -6,6 +6,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,9 @@ import android.widget.ImageView;
 import com.example.sohel.rushinalarm.Activities.AlarmActivity;
 import com.example.sohel.rushinalarm.Activities.AlarmRingingActivity;
 import com.example.sohel.rushinalarm.Utility.TransitionHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupWindowAnimations();
 
         initView();
+
     }
 
     private void initView() {

@@ -2,8 +2,11 @@ package com.example.sohel.rushinalarm.Activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,13 +18,14 @@ import android.widget.ImageView;
 
 import com.example.sohel.rushinalarm.Adapter.AlarmDataAdapter;
 import com.example.sohel.rushinalarm.Database.AlarmDatabase;
+import com.example.sohel.rushinalarm.JobSchduler.MyJobSchedulerService;
 import com.example.sohel.rushinalarm.Listener.AlarmClickListener;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
-import com.example.sohel.rushinalarm.Receiver.AlarmReceiver;
+import com.example.sohel.rushinalarm.AlarmReceiver;
 import com.example.sohel.rushinalarm.Utility.Constant;
+import com.example.sohel.rushinalarm.Utility.MyJobScheduler;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -42,11 +46,16 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
     private List<PendingIntent> pendinIntenList;
 
 
+    private MyJobScheduler myJobScheduler;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+
+        myJobScheduler = new MyJobScheduler(getApplicationContext());
 
         pendinIntenList = new ArrayList<>();
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -159,9 +168,9 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         }else if(viewId==2){
 
             if(isChecked){
-                setAlarm(data);
+                myJobScheduler.setAlarm(data);
             }else{
-                cancelAlarm(data);
+                myJobScheduler.cancelAlarm(data);
             }
 
         }
@@ -187,7 +196,7 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         Log.d("DDD",fal+"");
     }
 
-    private void setAlarm(AlarmData alarmData) {
+    /*private void setAlarm(AlarmData alarmData) {
 
         Log.d("HHH","Alarm Set");
 
@@ -199,13 +208,20 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         // Set the alarm to start at 8:30 a.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        if(hour>=12){
+            hour = hour%12;
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.AM_PM,Calendar.PM);
+        }else{
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+        }
+
         calendar.set(Calendar.MINUTE, minutes);
 
 
         PendingIntent alarmIntent = createPendingIntent(alarmData);
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, alarmIntent);
 
         Log.d("HHH","Alarm Remaining "+(calendar.getTimeInMillis()-System.currentTimeMillis()) );
@@ -213,9 +229,12 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
 
 
         //alarmManager.re(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+10000,alarmIntent);
-    }
+    }*/
 
-    private void cancelAlarm(AlarmData data){
+
+
+
+    /*private void cancelAlarm(AlarmData data){
 
         PendingIntent pendingIntent = createPendingIntent(data);
 
@@ -224,7 +243,7 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
             alarmManager.cancel(pendingIntent);
         }
 
-    }
+    }*/
 
     private PendingIntent createPendingIntent(AlarmData data){
 
@@ -232,6 +251,8 @@ public class AlarmActivity extends BaseDetailActivity implements View.OnClickLis
         intent.putExtra(Constant.ID,data.getId());
 
         PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(),data.getId(),intent,0);
+
+        //PendingIntent.getBroadcast()
 
         return pi;
 
