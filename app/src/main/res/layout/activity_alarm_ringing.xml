@@ -4,7 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/images"
+    android:padding="@dimen/large_padding"
     tools:context="com.example.sohel.rushinalarm.Activities.AlarmRingingActivity">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/snooze"
+        android:id="@+id/snooze"/>
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/stop_alarm"
+        android:id="@+id/stop"/>
 
    <!-- <br.tiagohm.clockview.ClockView
         android:id="@+id/relogio"

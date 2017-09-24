@@ -2,12 +2,17 @@ package com.example.sohel.rushinalarm.Activities;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.KeyguardManager;
 import android.app.job.JobScheduler;
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.example.sohel.rushinalarm.Database.AlarmDatabase;
 import com.example.sohel.rushinalarm.Model.AlarmData;
@@ -18,7 +23,7 @@ import com.example.sohel.rushinalarm.ViewModel.SohelClockView;
 
 import java.util.List;
 
-public class AlarmRingingActivity extends AppCompatActivity {
+public class AlarmRingingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SohelClockView sohelClockView;
 
@@ -32,6 +37,11 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
     private AlarmDatabase alarmDatabase;
 
+    // View Element
+    private ImageView ivSnooze,ivStopAlarm;
+
+    private PowerManager.WakeLock fullWakeLock,partialWakeLock;
+
 
 
 
@@ -39,6 +49,9 @@ public class AlarmRingingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_ringing);
+
+        createWakeLocks();
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         openAlarmDatabase();
 
         mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -66,9 +79,20 @@ public class AlarmRingingActivity extends AppCompatActivity {
             Log.d("HHH","Data Found");
         }
 
+        initView();
+
+
+
+
+    }
+
+    private void initView() {
         sohelClockView = (SohelClockView) findViewById(R.id.clock);
+        ivSnooze = (ImageView) findViewById(R.id.snooze);
+        ivStopAlarm = (ImageView) findViewById(R.id.stop);
 
-
+        ivSnooze.setOnClickListener(this);
+        ivStopAlarm.setOnClickListener(this);
     }
 
     private void openAlarmDatabase() {
@@ -102,10 +126,24 @@ public class AlarmRingingActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sohelClockView.resume();
+        if(partialWakeLock.isHeld()){
+            partialWakeLock.release();
+        }
+
+        wakeDevice();
+    }
+
+    public void wakeDevice() {
+        fullWakeLock.acquire();
+
+        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
+        keyguardLock.disableKeyguard();
     }
 
     @Override
     protected void onPause() {
+        partialWakeLock.acquire();
         sohelClockView.pause();
         pauseThread();
         super.onPause();
@@ -115,10 +153,7 @@ public class AlarmRingingActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(mediaPlayer!=null){
-            mediaPlayer.release();
-            mediaPlayer=null;
-        }
+        stopMediaPlayer();
     }
 
     @Override
@@ -142,4 +177,39 @@ public class AlarmRingingActivity extends AppCompatActivity {
 
         thread=null;
     }
+
+    private void stopMediaPlayer(){
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.snooze:
+                snoozeAlarm();
+                break;
+
+            case R.id.stop:
+                stopMediaPlayer();
+                break;
+        }
+    }
+
+    private void snoozeAlarm() {
+    }
+
+
+    // Called from onCreate
+    protected void createWakeLocks(){
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");
+        partialWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Loneworker - PARTIAL WAKE LOCK");
+    }
+
+
 }

@@ -51,6 +51,7 @@ public class MyJobScheduler {
         ComponentName componentName = new ComponentName(context.getPackageName(), MyJobSchedulerService.class.getName());
         JobInfo.Builder builder = new JobInfo.Builder(jobId,componentName)
                 .setMinimumLatency(duration)
+                .setRequiresDeviceIdle(false)
                 .setOverrideDeadline(duration);
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
 
