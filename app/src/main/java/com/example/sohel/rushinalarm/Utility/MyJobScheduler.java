@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 
 import com.example.sohel.rushinalarm.JobSchduler.MyJobSchedulerService;
+import com.example.sohel.rushinalarm.JobSchduler.SnoozeSchdulerService;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 
 import java.util.Calendar;
@@ -49,6 +50,26 @@ public class MyJobScheduler {
     private JobInfo getJobInfo(long duration,int jobId){
 
         ComponentName componentName = new ComponentName(context.getPackageName(), MyJobSchedulerService.class.getName());
+        JobInfo.Builder builder = new JobInfo.Builder(jobId,componentName)
+                .setMinimumLatency(duration)
+                .setRequiresDeviceIdle(false)
+                .setOverrideDeadline(duration);
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+
+        return builder.build();
+
+    }
+
+    public void startTestJob(int duration,int id){
+
+        JobInfo jobInfo = getTestJobInfo(duration,id);
+        mJobScheduler.schedule(jobInfo);
+
+    }
+
+    private JobInfo getTestJobInfo(long duration,int jobId){
+
+        ComponentName componentName = new ComponentName(context.getPackageName(), SnoozeSchdulerService.class.getName());
         JobInfo.Builder builder = new JobInfo.Builder(jobId,componentName)
                 .setMinimumLatency(duration)
                 .setRequiresDeviceIdle(false)

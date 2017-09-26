@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sohel.rushinalarm">
 
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -34,14 +34,18 @@
         <activity
             android:name=".Activities.SoundActivity"
             android:theme="@style/MaterialAnimations.Black" />
-
-        <activity android:name=".Activities.AlarmRingingActivity"></activity>
+        <activity android:name=".Activities.AlarmRingingActivity" />
 
         <service
             android:name=".JobSchduler.MyJobSchedulerService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".AlarmReceiver"/>
+        <service android:name=".JobSchduler.SnoozeSchdulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <receiver android:name=".AlarmReceiver" />
+
+        <activity android:name=".Activities.TestActivity"></activity>
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.example.sohel.rushinalarm.Activities.AlarmActivity;
 import com.example.sohel.rushinalarm.Activities.AlarmRingingActivity;
+import com.example.sohel.rushinalarm.Utility.MyJobScheduler;
 import com.example.sohel.rushinalarm.Utility.TransitionHelper;
 
 import java.text.SimpleDateFormat;
@@ -75,14 +76,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.info:
+                testJobSchduler();
 
                 break;
 
             case R.id.settings:
                 transitionToActivity(AlarmRingingActivity.class);
-
-
                 break;
         }
+    }
+
+    private void testJobSchduler() {
+        MyJobScheduler myJobScheduler = new MyJobScheduler(getApplicationContext());
+        myJobScheduler.startTestJob(15*1000,10);
     }
 }

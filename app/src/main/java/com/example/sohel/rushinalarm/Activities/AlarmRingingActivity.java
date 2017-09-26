@@ -165,17 +165,22 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void pauseThread(){
-        while (true){
-            try {
-                thread.join();
-                // After Join Break the Loop
-                break;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+        if(thread!=null){
+            while (true){
+                try {
+                    thread.join();
+                    // After Join Break the Loop
+                    break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
+            thread=null;
         }
 
-        thread=null;
+
     }
 
     private void stopMediaPlayer(){
