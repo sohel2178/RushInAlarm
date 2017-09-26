@@ -1,13 +1,20 @@
 package com.example.sohel.rushinalarm.Utility;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 
 import com.example.sohel.rushinalarm.JobSchduler.MyJobSchedulerService;
 import com.example.sohel.rushinalarm.JobSchduler.SnoozeSchdulerService;
+import com.example.sohel.rushinalarm.MainActivity;
 import com.example.sohel.rushinalarm.Model.AlarmData;
+import com.example.sohel.rushinalarm.R;
 
 import java.util.Calendar;
 
@@ -17,6 +24,9 @@ import java.util.Calendar;
 
 public class MyJobScheduler {
 
+    private static final int NOTIFICATION_EX = 1;
+    private NotificationManager notificationManager;
+
     private Context context;
 
     private JobScheduler mJobScheduler;
@@ -24,6 +34,8 @@ public class MyJobScheduler {
     public MyJobScheduler(Context context) {
         this.context = context;
         mJobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public void setAlarm(AlarmData alarmData){
@@ -41,9 +53,30 @@ public class MyJobScheduler {
 
         long duration = calendar.getTimeInMillis()-System.currentTimeMillis();
 
+        if(alarmData.getRepeateDays().equals("Never")){
+            if(duration<=0){
+                duration = duration+24*60*60*1000;
+            }
+        }
+
         JobInfo jobInfo =getJobInfo(duration,alarmData.getId());
 
+        buildNotification(alarmData.getId());
+
         mJobScheduler.schedule(jobInfo);
+    }
+
+    private void buildNotification(int id){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context )
+                .setSmallIcon(R.mipmap.ic_launcher);
+
+        Intent intent = new Intent();
+        PendingIntent pIntent = PendingIntent.getActivity(context, id , intent, 0);
+        builder.setContentIntent(pIntent);
+        builder.setOngoing(true);
+
+        Notification notif = builder.build();
+        notificationManager.notify(id, notif);
     }
 
 
@@ -98,8 +131,13 @@ public class MyJobScheduler {
     private void cancelAlarm(int id){
         if(mJobScheduler!=null){
             mJobScheduler.cancel(id);
+            cancelNotification(id);
         }
 
+    }
+
+    private void cancelNotification(int id){
+        notificationManager.cancel(id);
     }
 
 

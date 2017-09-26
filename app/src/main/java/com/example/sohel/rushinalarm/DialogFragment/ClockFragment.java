@@ -2,6 +2,7 @@ package com.example.sohel.rushinalarm.DialogFragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,7 +14,9 @@ import android.widget.Button;
 import android.widget.TimePicker;
 
 import com.example.sohel.rushinalarm.Listener.TimeListener;
+import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
+import com.example.sohel.rushinalarm.Utility.Constant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +28,8 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
 
     private TimeListener listener;
 
+    private AlarmData data;
+
 
 
 
@@ -32,6 +37,12 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        data = (AlarmData) getArguments().getSerializable(Constant.DATA);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +63,12 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
 
     private void initView(View view){
         timePicker = view.findViewById(R.id.time_picker);
+
+        // Load Existing time in the TimePicker
+        if(data!=null){
+            timePicker.setHour(data.getHour());
+            timePicker.setMinute(data.getMinutes());
+        }
         btnOk = view.findViewById(R.id.ok);
         btnCancel = view.findViewById(R.id.cancel);
     }

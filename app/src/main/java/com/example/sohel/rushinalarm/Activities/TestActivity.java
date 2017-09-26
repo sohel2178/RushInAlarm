@@ -18,21 +18,9 @@ import com.example.sohel.rushinalarm.Utility.VolumeHandler;
 public class TestActivity extends AppCompatActivity {
 
     PowerManager.WakeLock fullWakeLock;
-
     private MediaPlayer mediaPlayer;
     private Thread mediaPlayerThread;
-
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            Log.d("Call","Call");
-        }
-    };
-
     private AudioManager audioManager;
-
     private VolumeHandler vH;
 
     @Override
@@ -46,7 +34,7 @@ public class TestActivity extends AppCompatActivity {
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
-        vH = new VolumeHandler(audioManager,mHandler);
+        vH = new VolumeHandler(audioManager,new Handler());
 
 
 
@@ -83,12 +71,15 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        vH.pause();
         pauseMediaPlayerThread();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+
+
 
         fullWakeLock.release();
 

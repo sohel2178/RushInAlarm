@@ -5,7 +5,9 @@ import android.animation.ValueAnimator;
 import android.app.KeyguardManager;
 import android.app.job.JobScheduler;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +20,9 @@ import com.example.sohel.rushinalarm.Database.AlarmDatabase;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.R;
 import com.example.sohel.rushinalarm.Utility.Constant;
+import com.example.sohel.rushinalarm.Utility.MyJobScheduler;
 import com.example.sohel.rushinalarm.Utility.SoundHelper;
+import com.example.sohel.rushinalarm.Utility.VolumeHandler;
 import com.example.sohel.rushinalarm.ViewModel.SohelClockView;
 
 import java.util.List;
@@ -28,19 +32,21 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     private SohelClockView sohelClockView;
 
     private AlarmData alarmData;
-    private Thread thread;
+    PowerManager.WakeLock fullWakeLock;
+    private MediaPlayer mediaPlayer;
+    private Thread mediaPlayerThread;
+    private AudioManager audioManager;
+    private VolumeHandler vH;
+
     private SoundHelper helper;
 
-    private MediaPlayer mediaPlayer;
-
-    private JobScheduler mJobScheduler;
+    private MyJobScheduler mJobScheduler;
 
     private AlarmDatabase alarmDatabase;
 
     // View Element
     private ImageView ivSnooze,ivStopAlarm;
 
-    private PowerManager.WakeLock fullWakeLock,partialWakeLock;
 
 
 
@@ -50,21 +56,33 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_ringing);
 
-        createWakeLocks();
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");
+
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+
         openAlarmDatabase();
 
-        mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        mJobScheduler = new MyJobScheduler(getApplicationContext());
 
         helper = new SoundHelper(getApplicationContext());
 
         alarmData  = (AlarmData) getIntent().getSerializableExtra(Constant.DATA);
 
+        if(alarmData!=null){
+
+            if(alarmData.getFadeIn()==1){
+                vH = new VolumeHandler(audioManager,new Handler());
+            }
+            Log.d("HHH","Data Found");
+        }
+
 
         // Cancel the Job if it is not Repeating
         if(alarmData.getRepeateDays().equals(getString(R.string.never))){
             Log.d("HHH","Cancel Job");
-            mJobScheduler.cancel(alarmData.getId());
+            mJobScheduler.cancelAlarm(alarmData);
             // cancel Alarm in Database
             alarmData.setIsSet(0);
             alarmDatabase.updateAlarmData(alarmData);
@@ -75,11 +93,10 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
         }
 
 
-        if(alarmData!=null){
-            Log.d("HHH","Data Found");
-        }
+
 
         initView();
+
 
 
 
@@ -105,20 +122,17 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     protected void onStart() {
         super.onStart();
 
-        thread = new Thread(new Runnable() {
+        mediaPlayerThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), helper.getSoundById(alarmData.getSoundId()).getRes_id());
                 mediaPlayer.setLooping(true);
-               // mediaPlayer.setVolume();
                 mediaPlayer.start();
-
-                Log.d("THREAD",Thread.currentThread().getName());
 
             }
         });
 
-        thread.start();
+        mediaPlayerThread.start();
 
     }
 
@@ -126,11 +140,13 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     protected void onResume() {
         super.onResume();
         sohelClockView.resume();
-        if(partialWakeLock.isHeld()){
-            partialWakeLock.release();
+        // Check Vh not Null
+        if(vH!=null){
+            vH.resume();
         }
 
         wakeDevice();
+
     }
 
     public void wakeDevice() {
@@ -143,9 +159,12 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     protected void onPause() {
-        partialWakeLock.acquire();
+        if(vH!=null){
+            vH.pause();
+        }
+
         sohelClockView.pause();
-        pauseThread();
+        pauseMediaPlayerThread();
         super.onPause();
     }
 
@@ -153,6 +172,7 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     protected void onStop() {
         super.onStop();
 
+        fullWakeLock.release();
         stopMediaPlayer();
     }
 
@@ -164,12 +184,12 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
         super.onDestroy();
     }
 
-    private void pauseThread(){
+    private void pauseMediaPlayerThread(){
 
-        if(thread!=null){
+        if(mediaPlayerThread!=null){
             while (true){
                 try {
-                    thread.join();
+                    mediaPlayerThread.join();
                     // After Join Break the Loop
                     break;
                 } catch (InterruptedException e) {
@@ -177,7 +197,7 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
                 }
             }
 
-            thread=null;
+            mediaPlayerThread=null;
         }
 
 
@@ -197,6 +217,8 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
         switch (view.getId()){
             case R.id.snooze:
                 snoozeAlarm();
+                //actualVolume++;
+
                 break;
 
             case R.id.stop:
@@ -206,14 +228,6 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void snoozeAlarm() {
-    }
-
-
-    // Called from onCreate
-    protected void createWakeLocks(){
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");
-        partialWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Loneworker - PARTIAL WAKE LOCK");
     }
 
 

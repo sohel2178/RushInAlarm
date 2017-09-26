@@ -22,6 +22,7 @@ import com.example.sohel.rushinalarm.Listener.TimeListener;
 import com.example.sohel.rushinalarm.Model.AlarmData;
 import com.example.sohel.rushinalarm.Model.Sound;
 import com.example.sohel.rushinalarm.R;
+import com.example.sohel.rushinalarm.Utility.Constant;
 import com.example.sohel.rushinalarm.Utility.SoundHelper;
 
 import java.util.List;
@@ -274,8 +275,11 @@ public class AddAlarmActivity extends BaseDetailActivity implements View.OnClick
     }
 
     private void showTimePicker() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.DATA,data);
         FragmentManager manager = getSupportFragmentManager();
         ClockFragment clockFragment = new ClockFragment();
+        clockFragment.setArguments(bundle);
         clockFragment.setTimeListener(this);
         clockFragment.show(manager,"TAG");
     }
