@@ -9,11 +9,14 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.sohel.rushinalarm.Database.AlarmDatabase;
@@ -47,6 +50,9 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
     // View Element
     private ImageView ivSnooze,ivStopAlarm;
 
+    private Animation blinkAnimation;
+    private MyVibrator myVibrator;
+
 
 
 
@@ -56,10 +62,15 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_ringing);
 
+        // this object is Simply Blink the Icon
+        blinkAnimation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
+
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        myVibrator = new MyVibrator(getApplication());
 
 
         openAlarmDatabase();
@@ -72,10 +83,14 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
 
         if(alarmData!=null){
 
+            float volumePercent =(float) alarmData.getVolume()/100;
+            int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             if(alarmData.getFadeIn()==1){
                 vH = new VolumeHandler(audioManager,new Handler());
+            }else{
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int) (maxVolume*volumePercent),0);
             }
-            Log.d("HHH","Data Found");
+
         }
 
 
@@ -145,6 +160,14 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
             vH.resume();
         }
 
+        // This Code is for Vibrating Alarm
+        if(alarmData.getVibration()==1){
+            myVibrator.resume();
+        }
+
+        ivSnooze.setAnimation(blinkAnimation);
+        ivStopAlarm.setAnimation(blinkAnimation);
+
         wakeDevice();
 
     }
@@ -162,6 +185,10 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
         if(vH!=null){
             vH.pause();
         }
+
+       clearAnimation();
+
+        myVibrator.pause();
 
         sohelClockView.pause();
         pauseMediaPlayerThread();
@@ -208,6 +235,10 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer=null;
+
+            if(myVibrator.isRunning){
+                myVibrator.pause();
+            }
         }
 
     }
@@ -223,11 +254,94 @@ public class AlarmRingingActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.stop:
                 stopMediaPlayer();
+                finishAfterTenSecond();
                 break;
         }
     }
 
     private void snoozeAlarm() {
+        mJobScheduler.snoozeJob(alarmData);
+        stopMediaPlayer();
+
+        finishAfterTenSecond();
+    }
+
+    private void finishAfterTenSecond() {
+        clearAnimation();
+
+        Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        },10*1000);
+    }
+
+    private void clearAnimation(){
+        ivStopAlarm.clearAnimation();
+        ivSnooze.clearAnimation();
+    }
+
+
+    // This Inner Class is Responsible for Vibration
+    private class MyVibrator implements Runnable{
+        private Context context;
+        Vibrator v;
+        private Thread thread;
+
+        private boolean isRunning = false;
+
+        private MyVibrator(Context context) {
+            this.context = context;
+            v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            //thread = new Thread(this);
+        }
+
+        @Override
+        public void run() {
+
+            while (isRunning){
+
+                try {
+                    if(v.hasVibrator()){
+                        v.vibrate(500);
+                    }
+
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        void resume(){
+            isRunning = true;
+            thread = new Thread(this);
+            thread.start();
+        }
+
+        void pause(){
+            isRunning=false;
+
+            if(thread!=null){
+                while (true){
+                    try {
+                        thread.join();
+                        // After Join Break the Loop
+                        break;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                thread=null;
+            }
+
+
+        }
     }
 
 

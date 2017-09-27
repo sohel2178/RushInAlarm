@@ -7,25 +7,36 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.sohel.rushinalarm.Activities.AlarmRingingActivity;
 import com.example.sohel.rushinalarm.Activities.TestActivity;
+import com.example.sohel.rushinalarm.Database.AlarmDatabase;
+import com.example.sohel.rushinalarm.Model.AlarmData;
+import com.example.sohel.rushinalarm.Utility.Constant;
 
 /**
  * Created by Genius 03 on 9/26/2017.
  */
 
 public class SnoozeSchdulerService extends JobService {
-    private static final String TAG="SOHEL";
+    private static final String TAG="SnoozeSchdulerService";
+    private AlarmDatabase alarmDatabase;
 
     private Handler mJobHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            JobParameters parameters = (JobParameters) msg.obj;
+            JobParameters jobParameters = (JobParameters) msg.obj;
+            int jobId = jobParameters.getJobId();
 
-            startTestActivity();
+            alarmDatabase = new AlarmDatabase(getApplicationContext());
+            alarmDatabase.open();
+            AlarmData alarmData =alarmDatabase.getAlarmDataById(jobId);
+            alarmDatabase.close();
 
-            jobFinished(parameters,false);
+            startRingingActivity(alarmData);
+            jobFinished(jobParameters,false);
+
         }
     };
     @Override
@@ -43,9 +54,12 @@ public class SnoozeSchdulerService extends JobService {
     }
 
 
-    private void startTestActivity(){
-        Intent intent = new Intent(getApplicationContext(), TestActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+    private void startRingingActivity(AlarmData alarmData){
+        Intent intent = new Intent(getApplicationContext(), AlarmRingingActivity.class);
+        intent.putExtra(Constant.DATA,alarmData);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+
     }
 }

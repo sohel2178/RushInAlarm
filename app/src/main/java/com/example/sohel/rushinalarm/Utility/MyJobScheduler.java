@@ -93,9 +93,11 @@ public class MyJobScheduler {
 
     }
 
-    public void startTestJob(int duration,int id){
+    public void snoozeJob(AlarmData data){
 
-        JobInfo jobInfo = getTestJobInfo(duration,id);
+        int duration = data.getSnoozeDurationInMin()*60*1000;
+
+        JobInfo jobInfo = getTestJobInfo(duration,data.getId());
         mJobScheduler.schedule(jobInfo);
 
     }

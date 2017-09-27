@@ -88,6 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void testJobSchduler() {
         MyJobScheduler myJobScheduler = new MyJobScheduler(getApplicationContext());
-        myJobScheduler.startTestJob(15*1000,10);
+        //myJobScheduler.snoozeJob(15*1000,10);
     }
 }
