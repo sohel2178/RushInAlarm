@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/default_padding"
+    android:background="@drawable/back"
     tools:context="com.linearbd.sohel.rushinalarm.MainActivity">
 
     <ImageView
@@ -25,11 +26,28 @@
         android:layout_height="wrap_content"
         android:id="@+id/analog_clock"/>
 
-    <ImageView
-        style="@style/ImageIcon"
-        android:src="@drawable/alarm"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/alarm"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alarm_container"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            style="@style/ImageIcon"
+            android:src="@drawable/alarm"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/alarm"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Text.Medium"
+            android:layout_below="@+id/alarm"
+            android:text="@string/set_alarm"/>
+
+    </RelativeLayout>
+
+
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -48,7 +66,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/medium_padding"
         android:background="@drawable/digital_clock_back"
-        android:layout_above="@+id/alarm"
+        android:layout_above="@+id/alarm_container"
         android:id="@+id/digital_clock"
         android:textSize="@dimen/extra_large_text_size"
         android:textColor="@color/text_light"

@@ -27,7 +27,9 @@ public class AdUtil {
                 activity.getString(R.string.ad_app_id));
 
         AdView mAdView = activity.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
         mAdView.loadAd(adRequest);
     }
 }

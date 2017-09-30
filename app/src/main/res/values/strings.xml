@@ -37,6 +37,7 @@
     <string name="every_tuesday">Every Tuesday</string>
     <string name="snooze">Snooze</string>
     <string name="stop">Stop</string>
+    <string name="set_alarm">Set Alarm</string>
 
 
     <array name="alarm_names">
