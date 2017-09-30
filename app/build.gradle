@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
     defaultConfig {
-        applicationId "com.example.sohel.rushinalarm"
+        applicationId "com.linearbd.sohel.rushinalarm"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -32,6 +32,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-v13:26.+'
+    compile 'com.google.firebase:firebase-ads:10.2.0'
+
     compile 'com.github.tiagohm:ClockView:0.1.1'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

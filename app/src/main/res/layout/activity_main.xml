@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/default_padding"
-    tools:context="com.example.sohel.rushinalarm.MainActivity">
+    tools:context="com.linearbd.sohel.rushinalarm.MainActivity">
 
     <ImageView
         style="@style/ImageIcon"
@@ -19,14 +19,42 @@
         android:id="@+id/settings"
         android:layout_toStartOf="@+id/info"/>
 
+    <com.linearbd.sohel.rushinalarm.ViewModel.SohelClockView
+        android:padding="@dimen/analog_clock_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/analog_clock"/>
+
     <ImageView
         style="@style/ImageIcon"
         android:src="@drawable/alarm"
         android:layout_alignParentBottom="true"
         android:id="@+id/alarm"/>
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/info"
+        ads:adSize="@string/ad_size"
+        ads:adUnitId="@string/ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
-
+    <com.linearbd.sohel.rushinalarm.ViewModel.SohelDigitalClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_padding"
+        android:background="@drawable/digital_clock_back"
+        android:layout_above="@+id/alarm"
+        android:id="@+id/digital_clock"
+        android:textSize="@dimen/extra_large_text_size"
+        android:textColor="@color/text_light"
+        android:textStyle="bold"
+        android:text="00:00:00"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

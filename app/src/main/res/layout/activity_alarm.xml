@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sohel.rushinalarm.Activities.AlarmActivity">
+    tools:context="com.linearbd.sohel.rushinalarm.Activities.AlarmActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -33,13 +33,25 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_padding"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="@string/ad_size"
+        ads:adUnitId="@string/ad_unit_id">
+    </com.google.android.gms.ads.AdView>
+
     <ImageView
         style="@style/ImageIcon"
         android:layout_marginBottom="@dimen/medium_padding"
         android:layout_marginEnd="@dimen/medium_padding"
         android:src="@drawable/add"
         android:id="@+id/add"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/adView"
         android:layout_alignParentEnd="true"/>
 
 

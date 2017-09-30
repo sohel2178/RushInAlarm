@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sohel.rushinalarm.Activities.SnoozeDurationActivity">
+    tools:context="com.linearbd.sohel.rushinalarm.Activities.SnoozeDurationActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -23,70 +23,78 @@
             android:text="@string/snooze_duration" />
 
     </android.support.v7.widget.Toolbar>
-    
-    <RelativeLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:padding="@dimen/default_padding">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar">
 
-       <!-- <TextView
-            style="@style/Text.Large"
-            android:text="5 minutes"/>-->
-        
-        <RadioGroup
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/group"
-            android:orientation="vertical">
-            
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/_5_minutes"
-                android:id="@+id/rad_5"/>
+            android:layout_height="match_parent"
+            android:padding="@dimen/default_padding">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/_10_minutes"
-                android:id="@+id/rad_10"/>
+            <!-- <TextView
+                 style="@style/Text.Large"
+                 android:text="5 minutes"/>-->
 
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/_15_minutes"
-                android:id="@+id/rad_15"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/group"
+                android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/_20_minutes"
-                android:id="@+id/rad_20"/>
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/_5_minutes"
+                    android:id="@+id/rad_5"/>
 
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/_25_minutes"
-                android:id="@+id/rad_25"/>
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/_10_minutes"
+                    android:id="@+id/rad_10"/>
 
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/_30_minutes"
-                android:id="@+id/rad_30"/>
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/_15_minutes"
+                    android:id="@+id/rad_15"/>
 
-            <android.support.v7.widget.AppCompatRadioButton
-                style="@style/MyRadio"
-                android:text="@string/never"
-                android:id="@+id/rad_never"/>
-            
-        </RadioGroup>
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/_20_minutes"
+                    android:id="@+id/rad_20"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/group"
-            android:id="@+id/ok"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/medium_padding"
-            android:text="@string/ok"/>
-        
-    </RelativeLayout>
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/_25_minutes"
+                    android:id="@+id/rad_25"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/_30_minutes"
+                    android:id="@+id/rad_30"/>
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    style="@style/MyRadio"
+                    android:text="@string/never"
+                    android:id="@+id/rad_never"/>
+
+            </RadioGroup>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/group"
+                android:id="@+id/ok"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:text="@string/ok"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+    
+
     
     
 

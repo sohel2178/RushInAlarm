@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333333"
-    tools:context="com.example.sohel.rushinalarm.DialogFragment.ClockFragment">
+    tools:context="com.linearbd.sohel.rushinalarm.DialogFragment.ClockFragment">
 
     <TimePicker
         android:layout_width="match_parent"

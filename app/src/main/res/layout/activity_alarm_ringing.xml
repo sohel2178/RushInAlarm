@@ -4,49 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/images"
+    android:background="@drawable/back"
     android:padding="@dimen/large_padding"
-    tools:context="com.example.sohel.rushinalarm.Activities.AlarmRingingActivity">
+    tools:context="com.linearbd.sohel.rushinalarm.Activities.AlarmRingingActivity">
 
-    <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/snooze"
-        android:id="@+id/snooze"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_padding">
 
-    <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        <ImageView
+            android:layout_width="@dimen/big_icon_dim"
+            android:layout_height="@dimen/big_icon_dim"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/snooze"
+            android:id="@+id/snooze"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Text.Medium"
+            android:text="@string/snooze"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/snooze"/>
+
+    </RelativeLayout>
+
+   <RelativeLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentEnd="true"
+       android:padding="@dimen/medium_padding">
+
+       <ImageView
+           android:layout_width="@dimen/big_icon_dim"
+           android:layout_height="@dimen/big_icon_dim"
+           android:layout_centerHorizontal="true"
+           android:src="@drawable/stop_alarm"
+           android:id="@+id/stop"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           style="@style/Text.Medium"
+           android:text="@string/stop"
+           android:layout_below="@+id/stop"
+           android:layout_centerHorizontal="true"/>
+
+   </RelativeLayout>
+
+
+
+
+
+    <com.linearbd.sohel.rushinalarm.ViewModel.SohelClockView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/medium_padding"
+        android:id="@+id/clock"/>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_padding"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/stop_alarm"
-        android:id="@+id/stop"/>
-
-   <!-- <br.tiagohm.clockview.ClockView
-        android:id="@+id/relogio"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp"
-        app:circleColor="#aa000000"
-        app:digitalClockTextColor="@color/text_light"
-        app:dotColor="@color/theme_red_primary_dark"
-        app:hour="9"
-        app:hourHandColor="@color/sample_blue"
-        app:minute="45"
-        app:minuteHandColor="@color/sample_blue"
-        app:numeralColor="@color/text_light"
-        app:second="0"
-        app:secondHandColor="@color/sample_red"
-        app:showDigitalClock="true"
-        app:showDots="true"
-        app:showNumerals="true"
-        app:showSecondHand="true"/>-->
-
-    <com.example.sohel.rushinalarm.ViewModel.SohelClockView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/large_padding"
-        android:id="@+id/clock"/>
+        ads:adSize="@string/ad_size"
+        ads:adUnitId="@string/ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

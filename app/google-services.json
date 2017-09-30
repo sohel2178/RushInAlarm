@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "992730645818",
+    "firebase_url": "https://my-firebase-d39dd.firebaseio.com",
+    "project_id": "my-firebase-d39dd",
+    "storage_bucket": "my-firebase-d39dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992730645818:android:05afb144534f9918",
+        "android_client_info": {
+          "package_name": "com.example.sohel.androidswitchtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992730645818-47ev79ej12ikfhol5j228fb0dkkbmplr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sohel.androidswitchtest",
+            "certificate_hash": "947d2cd30c963169f7d0d6b4d93488710075daf0"
+          }
+        },
+        {
+          "client_id": "992730645818-nopk3s5kbc0ton5rp26t0sq8rg34kfcv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7vJYrlCl2nUoBJ3kSqKYC7yrcFI9A3cg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992730645818-nopk3s5kbc0ton5rp26t0sq8rg34kfcv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992730645818:android:254595666025a31f",
+        "android_client_info": {
+          "package_name": "com.linearbd.sohel.rushinalarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992730645818-6n7pivaplvfabhl77be4fhom3rd4p9r7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.linearbd.sohel.rushinalarm",
+            "certificate_hash": "947d2cd30c963169f7d0d6b4d93488710075daf0"
+          }
+        },
+        {
+          "client_id": "992730645818-nopk3s5kbc0ton5rp26t0sq8rg34kfcv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7vJYrlCl2nUoBJ3kSqKYC7yrcFI9A3cg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992730645818-nopk3s5kbc0ton5rp26t0sq8rg34kfcv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

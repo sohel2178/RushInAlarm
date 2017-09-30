@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Rush In Alarm</string>
+    <string name="ad_unit_id">ca-app-pub-5474497946967422/1670028024</string>
+    <string name="ad_app_id">ca-app-pub-5474497946967422~4259843986</string>
+    <string name="ad_size">BANNER</string>
+
+
     <string name="alarm">Alarm</string>
     <string name="alarm_setup">Alarm Setup</string>
     <string name="default_time">9:00</string>
@@ -30,6 +35,8 @@
     <string name="set_sound">Set Sound</string>
     <string name="every_monday">Every Monday</string>
     <string name="every_tuesday">Every Tuesday</string>
+    <string name="snooze">Snooze</string>
+    <string name="stop">Stop</string>
 
 
     <array name="alarm_names">
