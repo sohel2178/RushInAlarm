@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Rush In Alarm</string>
-    <string name="ad_unit_id">ca-app-pub-5474497946967422/1670028024</string>
-    <string name="ad_app_id">ca-app-pub-5474497946967422~4259843986</string>
+    <string name="ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="ad_size">BANNER</string>
 
 
@@ -38,6 +38,7 @@
     <string name="snooze">Snooze</string>
     <string name="stop">Stop</string>
     <string name="set_alarm">Set Alarm</string>
+    <string name="help">Help</string>
 
 
     <array name="alarm_names">

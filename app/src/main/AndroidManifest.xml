@@ -6,8 +6,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MaterialAnimations.Black">
-        <activity android:name="com.linearbd.sohel.rushinalarm.MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,30 +26,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.linearbd.sohel.rushinalarm.Activities.AlarmActivity"
-            android:theme="@style/MaterialAnimations.Black" />
+            android:name=".Activities.AlarmActivity"
+            android:theme="@style/MaterialAnimations.Black"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.linearbd.sohel.rushinalarm.Activities.AddAlarmActivity"
-            android:theme="@style/MaterialAnimations.Black" />
-        <activity android:name="com.linearbd.sohel.rushinalarm.Activities.SnoozeDurationActivity" />
+            android:name=".Activities.AddAlarmActivity"
+            android:theme="@style/MaterialAnimations.Black"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".Activities.SnoozeDurationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.linearbd.sohel.rushinalarm.Activities.RepeatActivity"
-            android:theme="@style/MaterialAnimations.Black" />
+            android:name=".Activities.RepeatActivity"
+            android:theme="@style/MaterialAnimations.Black"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity
-            android:name="com.linearbd.sohel.rushinalarm.Activities.SoundActivity"
-            android:theme="@style/MaterialAnimations.Black" />
-        <activity android:name="com.linearbd.sohel.rushinalarm.Activities.AlarmRingingActivity" />
+            android:name=".Activities.SoundActivity"
+            android:theme="@style/MaterialAnimations.Black"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".Activities.AlarmRingingActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"/>
 
         <service
-            android:name="com.linearbd.sohel.rushinalarm.JobSchduler.MyJobSchedulerService"
+            android:name=".JobSchduler.MyJobSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".JobSchduler.SnoozeSchdulerService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name="com.linearbd.sohel.rushinalarm.JobSchduler.SnoozeSchdulerService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <receiver android:name=".AlarmReceiver" />
 
-        <receiver android:name="com.linearbd.sohel.rushinalarm.AlarmReceiver" />
-
-        <activity android:name="com.linearbd.sohel.rushinalarm.Activities.TestActivity"></activity>
+        <activity android:name=".Activities.TestActivity" />
+        <activity android:name=".Activities.InfoActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.linearbd.sohel.rushinalarm.Activities.AlarmActivity;
 import com.linearbd.sohel.rushinalarm.Activities.AlarmRingingActivity;
+import com.linearbd.sohel.rushinalarm.Activities.InfoActivity;
 import com.linearbd.sohel.rushinalarm.Utility.AdUtil;
 import com.linearbd.sohel.rushinalarm.Utility.MyJobScheduler;
 import com.linearbd.sohel.rushinalarm.Utility.TransitionHelper;
@@ -103,12 +104,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.info:
-                testJobSchduler();
+                transitionToActivity(InfoActivity.class);
 
                 break;
 
             case R.id.settings:
-                transitionToActivity(AlarmRingingActivity.class);
+                //transitionToActivity(AlarmRingingActivity.class);
                 break;
         }
     }
