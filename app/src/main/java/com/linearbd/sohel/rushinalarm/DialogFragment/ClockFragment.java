@@ -1,6 +1,7 @@
 package com.linearbd.sohel.rushinalarm.DialogFragment;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -65,8 +66,18 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
 
         // Load Existing time in the TimePicker
         if(data!=null){
-            timePicker.setHour(data.getHour());
-            timePicker.setMinute(data.getMinutes());
+
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                timePicker.setHour(data.getHour());
+                timePicker.setMinute(data.getMinutes());
+            }else{
+                timePicker.setCurrentHour(data.getHour());
+                timePicker.setCurrentMinute(data.getMinutes());
+            }
+
+
+
+
         }
         btnOk = view.findViewById(R.id.ok);
         btnCancel = view.findViewById(R.id.cancel);
@@ -86,8 +97,16 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
 
         switch (view.getId()){
             case R.id.ok:
-                int hour =timePicker.getHour();
-                int minute =timePicker.getMinute();
+                int hour;
+                int minute;
+
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                    hour = timePicker.getHour();
+                    minute = timePicker.getMinute();
+                }else{
+                    hour = timePicker.getCurrentHour();
+                    minute = timePicker.getCurrentMinute();
+                }
 
                 if(listener!=null){
                     listener.getTime(hour,minute);
